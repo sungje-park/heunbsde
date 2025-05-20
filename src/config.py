@@ -44,14 +44,14 @@ class Config():
     traj_len: int = 50
     delta_t: float = 1e-2
     reset_u: bool = True
-    bspinns_ratio: float = .1
+    fspinns_ratio: float = .1
     skip_len: int = 5
  
     #extras
     save_to_wandb: bool = False
     track_pinns_loss: bool = False
     track_bsde_loss: bool = False
-    track_bspinns_loss: bool = False
+    track_fspinns_loss: bool = False
     checkpointing: bool = False
     save_sol: bool = False
     ref_sol: bool = True

@@ -4,55 +4,7 @@ from utils import *
 import jax
 from jax import numpy as jnp
 import wandb
-import numpy as np
-import diffrax as df
-import pandas
 
-    
-class MultiDimChild_Solver(Solver):
-    def __init__(self,config:Config):
-        super().__init__(config)
-
-    def sample_domain(self,key:Key,batch_size): # Initiates normal dist for x and uniform t
-        x_pde = []
-        for i in range(self.config.d_in):
-            x_pde.append(2*jax.random.normal(key.newkey(),(batch_size,1)))
-        x_pde = jnp.concatenate(x_pde,axis=-1)
-        t_pde = jax.random.uniform(key.newkey(),
-                                   (batch_size,1),
-                                   minval=self.config.t_range[0],
-                                   maxval=self.config.t_range[1])
-        return x_pde,t_pde
-    
-    def sample_domain_bsde(self,key,batch_size):
-        x_pde = []
-        for i in range(self.config.d_in):
-            x_pde.append(jnp.zeros((batch_size,1)))
-        x_pde = jnp.concatenate(x_pde,axis=-1)
-        t_pde = jnp.zeros((batch_size,1))
-        return x_pde,t_pde
-
-    def u_ana(self,x):
-        pass
-
-    def ic_fn(self,x):
-        pass
-
-    def b(self,x,u_x): # in: batch x d_in, out: batch x d_in
-        return super().b(x)
-    
-    def sigma(self,x,y): # in: batch x d_in, out: batch x d_in x d_in
-        return super().sigma(x,y)
-    
-    def h(self,x,y,z,t): # in: batch x [d_in,d_out,d_in x d_out], out: batch x d_out x d_in
-        return super().h(self,x,y,z,t)
-    
-    def get_base_config():
-        return Config(case='base')
-    
-    def pinns_pde_loss(self,key,params,x,t):
-        pass # should be defined in child class
-    
 ### Multi-Dim HJB Solver
 class HJB_Solver(Solver):
     def __init__(self,config:Config):
@@ -289,6 +241,7 @@ class BZ_Solver(Solver):
     def c(self,x,u,u_x,u_xx):
         return jnp.matmul(u_x,self.b_heun(x,u,u_x)[...,jnp.newaxis])[...,0]+self.c_direct(x,u,u_x,u_xx)
 
+# Pendulum Swing-up HJB Problem
 class Pendulum_Solver(Solver):
     def __init__(self,config:Config):
         super().__init__(config)

@@ -18,7 +18,6 @@ from config import *
 from utils import *
 from functools import partial
 import copy
-from matfree.decomp import tridiag_sym
 
 class Solver():
 
@@ -173,8 +172,8 @@ class Solver():
                 loss_fn = self.bsde_huen_loss
             case "bsdeheunskip":
                 loss_fn = self.bsde_heun_skip_loss
-            case "bspinns":
-                loss_fn = self.bspinns_loss
+            case "fspinns":
+                loss_fn = self.fspinns_loss
             case "regress":
                 loss_fn = self.reg_loss
             case _:
@@ -277,7 +276,7 @@ class Solver():
     def jit_pinns_loss(self,key: Key,params):
         return jnp.sum(jnp.asarray(self.pinns_loss(key,params)))
     
-    def bspinns_loss(self,key:Key,params):
+    def fspinns_loss(self,key:Key,params):
         x_pde,t_pde = self.sample_domain_bsde(key,self.config.batch_pde)
         dt = jnp.zeros((self.config.batch_pde,self.config.traj_len+1,1))
         dw = jnp.zeros((self.config.batch_pde,self.config.traj_len+1,self.config.d_in))
@@ -315,8 +314,8 @@ class Solver():
         return (pinns_loss,term_loss)
 
     @partial(jax.jit, static_argnums = 0)
-    def jit_bspinns_loss(self,key:Key,params):
-        return jnp.sum(jnp.asarray(self.bspinns_loss(key,params)))
+    def jit_fspinns_loss(self,key:Key,params):
+        return jnp.sum(jnp.asarray(self.fspinns_loss(key,params)))
 
     def bsde_loss(self,key:Key,params):
         x,t = self.sample_domain_bsde(key,self.config.batch_pde)
@@ -567,9 +566,9 @@ class Controller():
             if self.solver.config.track_bsde_loss:
                 bsde_loss = self.solver.jit_bsde_loss(self.key,self.params)
                 wandb.log({"bsde Loss": bsde_loss},commit=False)
-            if self.solver.config.track_bspinns_loss:
-                bspinns_loss = self.solver.jit_bspinns_loss(self.key,self.params)
-                wandb.log({"bspinns Loss": bspinns_loss},commit=False)
+            if self.solver.config.track_fspinns_loss:
+                fspinns_loss = self.solver.jit_fspinns_loss(self.key,self.params)
+                wandb.log({"fspinns Loss": fspinns_loss},commit=False)
             temp = {"loss"+str(k+1): v for k,v in dict(enumerate(losses)).items()}
             wandb.log(temp,commit=False)
             if self.solver.config.ref_sol:
