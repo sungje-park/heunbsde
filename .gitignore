@@ -3,3 +3,4 @@
 carc/slurm*
 **/wandb
 **/.vscode
+**/**.job
