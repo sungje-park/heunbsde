@@ -15,7 +15,7 @@ For additional configurations, please refer to
 ```
 python -m examples.runfile -h
 ```
-or `examples/runfile.py`.
+or `/examples/runfile.py`.
 ## Publication
 N/A
 
