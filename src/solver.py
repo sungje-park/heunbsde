@@ -1,5 +1,3 @@
-### PINNS & BSDE Solver
-
 import sys
 import jax.flatten_util
 sys.path.append('..')

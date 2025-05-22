@@ -35,16 +35,12 @@ class Config():
     
     # PINNS Loss Def
     pde_scale: float = 1
-    bc_scale: float = 1
     ic_scale: float = 1
-    bsde_scale: float = 1
-    traj_scale: float = 1
 
     # BSDE Loss Def
     traj_len: int = 50
     delta_t: float = 1e-2
     reset_u: bool = True
-    fspinns_ratio: float = .1
     skip_len: int = 5
  
     #extras
@@ -66,10 +62,7 @@ class Config():
                            iter=self.iter,
                            loss_method=self.loss_method,
                            pde_scale=self.pde_scale,
-                           bc_scale=self.bc_scale,
                            ic_scale=self.ic_scale,
-                           bsde_scale = self.bsde_scale,
-                           traj_scale = self.traj_scale,
                            traj_len=self.traj_len,
                            delta_t=self.delta_t)
 

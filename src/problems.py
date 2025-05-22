@@ -65,8 +65,6 @@ class HJB_Solver(Solver):
                       traj_len=traj_len,
                       delta_t=T/traj_len,
                       ic_scale=10,
-                      four_emb=False,
-                      skip_conn=False,
                       iter = 100000)    
     def get_ref_sol(self):
         u_ana = jax.jit(self.u_ana)
@@ -169,8 +167,6 @@ class BSB_Solver(Solver):
                       traj_len=traj_len,
                       delta_t=T/traj_len,
                       ic_scale=10,
-                      four_emb=False,
-                      skip_conn=False,
                       iter = 100000)
     
 # Example toy problem from Bender & Zhang 2008
@@ -225,8 +221,6 @@ class BZ_Solver(Solver):
                     traj_len=traj_len,
                     delta_t=T/traj_len,
                     ic_scale=10,
-                    four_emb=False,
-                    skip_conn=False,
                     iter = 100000)
     
     def pinns_pde_loss(self,key,params,x,t):
@@ -304,8 +298,6 @@ class Pendulum_Solver(Solver):
                     delta_t=T/traj_len,
                     t_range = (0,T),
                     ic_scale=10,
-                    four_emb=False,
-                    skip_conn=False,
                     iter = 100000,
                     ref_sol=False,
                     custom_eval=True,
