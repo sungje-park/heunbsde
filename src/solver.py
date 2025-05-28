@@ -69,7 +69,7 @@ class Solver():
     
     def init_wandb(self):
         print("Initializing wandb")
-        wandb.init(project="pinnsbsde",config=vars(self.config))
+        wandb.init(project="heunbsde",config=vars(self.config))
 
     def wandb_tags(self,tag):
         wandb.run.tags = wandb.run.tags + (tag,)

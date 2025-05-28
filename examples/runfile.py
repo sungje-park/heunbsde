@@ -17,21 +17,25 @@ args = vars(parser.parse_args())
 
 # Enabling f64 calculations
 if args["float"]==1:
+    print("f64 Enabled")
     jax.config.update("jax_enable_x64", True)
 
 # Choosing Case for training
 def choose_case(case):
     match case:
         case "hjb":
+            print("case: hjb")
             return HJB_Solver
         case "bsb":
+            print("case: bsb")
             return BSB_Solver
         case "bz":
+            print("case: bz")
             return BZ_Solver
         case _:
             Exception("Invalid Case")
 Case_Solver = choose_case(args["case"])
-
+print("trajectory length: "+str(args["disc"]))
 config = Case_Solver.get_base_config(traj_len=args["disc"])
 
 # Option to save results to weights & biases
@@ -45,8 +49,10 @@ iter = [50000,25000,25000]
 seed = 1234
 
 # Setting config for run
+print("loss method: "+str(args["loss"]))
 config.loss_method = args["loss"]
 config.batch_pde = 64
+print("skip length: "+str(args["skip"]))
 config.skip_len = args["skip"]
 # Additional Configs for LR scheduling
 config.additional_losses = True

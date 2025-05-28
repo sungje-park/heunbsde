@@ -17,7 +17,18 @@ python -m examples.runfile -h
 ```
 or `/examples/runfile.py`.
 ## Publication
-N/A
+Integration Matters for Learning PDEs with Backwards SDEs
+
+Authors: Sungje Park, Stephen Tu
+
+arXiv: https://arxiv.org/abs/2505.01078
 
 ## Citation
-N/A
+```
+@article{park2025integrationmatters,
+    title={Integration Matters for Learning PDEs with Backwards SDEs}, 
+    author={Sungje Park and Stephen Tu},
+    journal={arXiv preprint arXiv:2505.01078},
+    year={2025}
+}
+```
